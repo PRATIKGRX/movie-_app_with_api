@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie List</title>
+    <style>
+        .movie-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .movie-card {
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        .movie-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        #search-bar {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie List</h1>
+    
+    <!-- Search Bar -->
+    <input type="text" id="search-bar" placeholder="Search for a movie...">
+    
+    <div class="movie-container" id="movie-container"></div> <!-- Movies will be displayed here -->
+
+    <script src="script.js"></script> <!-- Link to JavaScript file -->
+</body>
+</html>
