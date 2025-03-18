@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+
+</head>
+<body>
+    <button onclick="back()">Back</button>
+    <div id="movie-container"></div>
+    
+</body>
+<script>
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    console.log(id);
+    let movie = [];
+
+    const fetchMovies = async function () {
+        try {
+            const response = await fetch(`https://api.dynoacademy.com/test-api/v1/movie/${id}`);
+            const data = await response.json();
+            movie = data.singleMovieData;
+            console.log(movie);
+            displayMovies(movie); 
+        } catch (error) {
+            console.error("Error fetching movies:", error);
+        }
+    };
+    function displayMovies(movies){
+        const movieDetail = document.getElementById("movie-container");
+        const movieImg = document.createElement("img");
+        movieImg.src = movies.image;
+        const movieTitle = document.createElement("h1");
+        movieTitle.textContent= movies.name;
+        movieInfo = document.createElement("h5");
+        movieInfo.textContent = movies.info;
+        movieDescription = document.createElement("p");
+        movieDescription.textContent = movies.desc;
+
+        movieDetail.appendChild(movieImg);
+        movieDetail.appendChild(movieTitle);
+        movieDetail.appendChild(movieInfo);
+        movieDetail.appendChild(movieDescription);
+    
+    }
+    fetchMovies();
+    function back(){
+        window.location.href="index.html";
+    }
+    
+    
+    </script>
+
+</html>
