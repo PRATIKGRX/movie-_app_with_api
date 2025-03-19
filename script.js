@@ -1,18 +1,20 @@
 let movie = [];
-const fetchMovies = async function (searchBar=null) {
+var apiKey = "7b316e6d";
+const fetchMovies = async function (search = null) {
     try {
-        const response = await fetch(`https://api.dynoacademy.com/test-api/v1/movies?search=${searchBar??""}`);
+        const response = await fetch(`https://www.omdbapi.com/?apikey=7b316e6d&s=${search ?? "movie"}&page=1`);
         
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
+        
         const data = await response.json();
         console.log("API Response:", data);
 
-        movie = data.moviesData;
+        movie = data.Search;
 
-        displayMovies(movie); 
+        console.log(movie);
+        displayMovies(movie);
     } catch (error) {
         console.error("Error fetching movies:", error);
     }
@@ -23,37 +25,31 @@ function displayMovies(movies) {
     movieContainer.innerHTML = ""; 
     movies.forEach((m) => {
         const movieCard = document.createElement("div");
+        const anchor = document.createElement("a");
+        anchor.href=`/displayMovie.html?id=${m.imdbID
+}`;
         const movieImg = document.createElement("img");
-        movieImg.src = m.image; 
-        const imgAnker=document.createElement("a");
-        imgAnker.href=`/movieDetail.html?id=${m.id}`;
-        imgAnker.append(movieImg);
+        movieImg.src = m.Poster; 
         const movieName = document.createElement("h3");
-        movieName.textContent = m.name;
-        movieCard.appendChild(imgAnker);
+        movieName.textContent = m.Title;
+        anchor.appendChild(movieImg)
+        movieCard.appendChild(anchor);
         movieCard.appendChild(movieName);
         movieContainer.appendChild(movieCard);
     });
 };
-
-const searchMovies = (event) => {
-    var note=document.getElementById("note");
-    const searchBar = event.target.value.toLowerCase();
-    if(searchBar.trim()!="" && searchBar.length >= 3) {
-        note.style.display="none";
+const searchMovies = (event)=>{
+    const searchBar = document.getElementById("search-bar").value.toLowerCase() ;
+    if(searchBar.trim() != "" || searchBar.lenght >=3 ){
         fetchMovies(searchBar);
     }
-    else if(searchBar.trim()=="")
-    {
-        note.style.display="none";
-    }
-    else
-    {
-        note.style.display="block";
+    else if (searchBar.trim() == "" ){
         fetchMovies();
     }
-};
+}
+
+
+
 
 fetchMovies();
-
 document.getElementById("search-bar").addEventListener("input", searchMovies);

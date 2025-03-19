@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #back {
+            position: absolute;
+            left: 0;
+            top: 0;
+            padding: 10px 20px;
+        }
+
+        .test {
+            padding: 100px 150px;
+            height: 100vh;
+        }
+
+        .movie-img {
+            height: 400px;
+            width: 300px;
+            border-radius: 12px;
+        }
+
+        .test1 {
+            display: flex;
+            gap: 100px;
+            margin-bottom: 50px;
+        }
+        .name{
+            font-weight: bold;
+            font-size: 42px;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <button id="back">Back</button>
+    <div id=" movie-container" class="test">
+        <div id="firstContainer">
+        </div>
+
+        <p id="info"></p>
+
+    </div>
+
+</body>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieId = urlParams.get("id");
+    let movie = [];
+    const fetchMovies = async function () {
+        try {
+            const response = await fetch(`http://www.omdbapi.com/?apikey=7b316e6d&i=${movieId}`);
+
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("API Response:", data);
+
+            movie = data;
+
+            displayMovies(movie);
+        } catch (error) {
+            console.error("Error fetching movies:", error);
+        }
+    };
+    function displayMovies(movies) {
+        const movieImg = document.createElement("img");
+        movieImg.src = movies.Poster;
+        movieImg.classList.add("movie-img")
+        const firstDiv = document.getElementById('firstContainer');
+        firstDiv.appendChild(movieImg);
+        const div = document.createElement("div");
+        div.classList.add("test1")
+        const name = document.createElement("h1");
+        name.classList.add("name");
+        name.textContent = movies.Title;
+        const rating = document.createElement("h3");
+        rating.textContent = `Rating : ${movies.Ratings[0].Value}`;
+        const desc = document.createElement("h5");
+        desc.textContent = movies.desc;
+        const div1 = document.createElement("div");
+        div.appendChild(name);
+        div.appendChild(rating);
+        div1.appendChild(desc);
+        firstDiv.appendChild(div);
+        firstDiv.appendChild(div1);
+        const info = document.getElementById("info");
+        info.textContent = movies.info;
+        firstDiv.appendChild(info);
+        
+    }
+    fetchMovies();
+    document.getElementById('back').addEventListener("click",function (){
+        window.location.href="index.html";
+
+    });
+</script>
+
+</html>
