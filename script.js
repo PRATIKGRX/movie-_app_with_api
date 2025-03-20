@@ -26,7 +26,7 @@ function displayMovies(movies) {
     movies.forEach((m) => {
         const movieCard = document.createElement("div");
         const anchor = document.createElement("a");
-        anchor.href=`displayMovie.html?id=${m.imdbID
+        anchor.href=`/movie-_app_with_api/displayMovie.html?id=${m.imdbID
 }`;
         const movieImg = document.createElement("img");
         movieImg.src = m.Poster; 
